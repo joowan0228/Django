@@ -1,0 +1,10 @@
+{% extends "base.html" %}
+{% block title %}Todo 생성{% endblock %}
+{% block content %}
+<h1>Todo 생성</h1>
+<form method="post">
+  {% csrf_token %}
+  {{ form.as_p }}
+  <button type="submit">생성</button>
+</form>
+{% endblock %}

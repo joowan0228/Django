@@ -1,0 +1,14 @@
+{% extends "base.html" %}
+{% block title %}Todo Info{% endblock %}
+{% block content %}
+<h1>Todo 상세</h1>
+<p><strong>제목:</strong> {{ todo_obj.title }}</p>
+<p><strong>설명:</strong> {{ todo_obj.description }}</p>
+<p><strong>완료:</strong> {% if todo_obj.is_completed %}완료{% else %}미완료{% endif %}</p>
+<p><strong>작성일:</strong> {{ todo_obj.created_at }}</p>
+<a class="btn" href="{% url 'todo:todo_update' todo_obj.id %}">수정하기</a>
+<form action="{% url 'todo:todo_delete' todo_obj.id %}" method="post" style="display:inline">
+  {% csrf_token %}
+  <button type="submit" class="btn">삭제하기</button>
+</form>
+{% endblock %}
