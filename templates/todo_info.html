@@ -1,17 +1,6 @@
-<!DOCTYPE html>
-<html>
-<head>
-    <title>{{ todo.title }}</title>
-</head>
-<body>
-    <h1>{{ todo.title }}</h1>
-    <hr>
-    <p><strong>Description:</strong> {{ todo.description }}</p>
-    <p><strong>Start Date:</strong> {{ todo.start_date }}</p>
-    <p><strong>End Date:</strong> {{ todo.end_date }}</p>
-    <p><strong>Completed:</strong> {{ todo.is_completed }}</p>
-    <p><strong>Created At:</strong> {{ todo.created_at }}</p>
-    <p><strong>Modified At:</strong> {{ todo.modified_at }}</p>
-    <p><a href="{% url 'todo_list' %}">Back to list</a></p>
-</body>
-</html>
+{% if request.user.is_staff %}
+  <h2>[{{ todo.user.username }}] {{ todo.title }}</h2>
+{% else %}
+  <h2>{{ todo.title }}</h2>
+{% endif %}
+<p>{{ todo.description }}</p>
