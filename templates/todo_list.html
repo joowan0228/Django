@@ -1,24 +1,7 @@
-<nav>
-  {% if request.user.is_authenticated %}
-    <p>{{ request.user.username }}님
-    <form action="{% url 'logout' %}" method="POST">
-      {% csrf_token %}
-      <button>Logout</button>
-    </form></p>
+{% for todo in todos %}
+  {% if request.user.is_staff %}
+    <p>[{{ todo.user.username }}] {{ todo.title }}</p>
   {% else %}
-    <a href="{% url 'signup' %}">회원가입</a> | <a href="{% url 'login' %}">로그인</a>
+    <p>{{ todo.title }}</p>
   {% endif %}
-</nav>
-
-<div>
-{% if request.user.is_authenticated %}
-  <h1>{{ request.user.username }}의 Todo List</h1>
-  <ul>
-    {% for todo in data %}
-      <li><a href="{% url 'todo_info' todo.id %}">{{ todo.title }}</a></li>
-    {% endfor %}
-  </ul>
-{% else %}
-  <h1>회원가입 또는 로그인을 해주세요.</h1>
-{% endif %}
-</div>
+{% endfor %}
