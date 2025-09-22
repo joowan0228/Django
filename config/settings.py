@@ -2,22 +2,31 @@ from pathlib import Path
 
 BASE_DIR = Path(__file__).resolve().parent.parent
 
-SECRET_KEY = 'django-insecure-4q#rm8n@%3^8$)cz$-+rdg2$ht15wfuwlrf7^vt1%y^%52desl'
-
+SECRET_KEY = 'django-insecure-test-key'
 DEBUG = True
-
 ALLOWED_HOSTS = []
 
-INSTALLED_APPS = [
+DJANGO_APPS = [
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+]
+
+CUSTOM_APPS = [
     'todo',
     'users',
 ]
+
+THIRD_PARTY_APPS = [
+    'django_extensions',
+    'django_summernote',
+    'django_cleanup',
+]
+
+INSTALLED_APPS = DJANGO_APPS + CUSTOM_APPS + THIRD_PARTY_APPS
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
@@ -38,6 +47,7 @@ TEMPLATES = [
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
+                'django.template.context_processors.debug',
                 'django.template.context_processors.request',
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
@@ -55,24 +65,43 @@ DATABASES = {
     }
 }
 
-AUTH_PASSWORD_VALIDATORS = [
-    {'NAME': 'django.contrib.auth.password_validation.UserAttributeSimilarityValidator'},
-    {'NAME': 'django.contrib.auth.password_validation.MinimumLengthValidator'},
-    {'NAME': 'django.contrib.auth.password_validation.CommonPasswordValidator'},
-    {'NAME': 'django.contrib.auth.password_validation.NumericPasswordValidator'},
-]
+AUTH_PASSWORD_VALIDATORS = []
 
-LANGUAGE_CODE = 'en-us'
-
-TIME_ZONE = 'UTC'
-
+LANGUAGE_CODE = 'ko-kr'
+TIME_ZONE = 'Asia/Seoul'
 USE_I18N = True
-
 USE_TZ = True
 
-STATIC_URL = 'static/'
+STATIC_URL = '/static/'
+STATICFILES_DIRS = [BASE_DIR / 'static']
+MEDIA_URL = '/media/'
+MEDIA_ROOT = BASE_DIR / 'media'
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
-LOGIN_REDIRECT_URL = '/todo/'
-LOGOUT_REDIRECT_URL = '/accounts/login/'
+SUMMERNOTE_CONFIG = {
+    'iframe': True,
+    'summernote': {
+        'airMode': False,
+        'width': '100%',
+        'height': '480',
+        'toolbar': [
+            ['style', ['style']],
+            ['font', ['bold', 'underline', 'clear']],
+            ['color', ['color']],
+            ['para', ['ul', 'ol', 'paragraph']],
+            ['table', ['table']],
+            ['insert', ['link', 'picture']],
+            ['view', ['fullscreen']],
+        ],
+        'lang': 'ko-KR',
+        'codemirror': {
+            'mode': 'htmlmixed',
+            'lineNumbers': 'true',
+            'theme': 'monokai',
+        },
+    },
+    'attachment_require_authentication': True,
+    'disable_attachment': False,
+    'attachment_absolute_uri': True,
+}

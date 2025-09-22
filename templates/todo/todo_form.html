@@ -1,0 +1,13 @@
+{% extends 'todo/base.html' %}
+{% block content %}
+<div class="container mt-5" style="max-width: 600px;">
+    {% if request.user.is_authenticated %}
+        <form method="POST" enctype="multipart/form-data" class="card p-4">
+            <h2 class="mb-3">Todo</h2>
+            {% csrf_token %}
+            {{ form.as_p }}
+            <button class="btn btn-primary">저장</button>
+        </form>
+    {% endif %}
+</div>
+{% endblock %}

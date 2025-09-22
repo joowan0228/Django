@@ -3,6 +3,16 @@ from .models import Todo
 
 @admin.register(Todo)
 class TodoAdmin(admin.ModelAdmin):
-    list_display = ('id', 'title', 'start_date', 'end_date', 'is_completed', 'created_at', 'modified_at')
-    list_filter = ('is_completed', 'start_date', 'end_date')
-    search_fields = ('title', 'description')
+    list_display = ('id', 'user', 'title', 'is_completed', 'start_date', 'end_date')
+    list_filter = ('is_completed',)
+    search_fields = ('title',)
+    ordering = ('start_date',)
+    list_display_links = ('title',)
+    fieldsets = (
+        ('Todo Info', {
+            'fields': ('user', 'title', 'description', 'completed_image', 'is_completed')
+        }),
+        ('Date Range', {
+            'fields': ('start_date', 'end_date')
+        }),
+    )
