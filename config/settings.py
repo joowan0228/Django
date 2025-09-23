@@ -2,7 +2,17 @@ from pathlib import Path
 
 BASE_DIR = Path(__file__).resolve().parent.parent
 
-SECRET_KEY = 'django-insecure-test-key'
+import json, os
+
+# load secret config if exists
+secret_path = os.path.join(BASE_DIR, '.secret_config', 'secret.json')
+if os.path.exists(secret_path):
+    with open(secret_path) as f:
+        secrets = json.load(f)
+else:
+    secrets = {}
+
+SECRET_KEY = secrets.get('DJANGO_SECRET_KEY', 'django-insecure-test-key')
 DEBUG = True
 ALLOWED_HOSTS = []
 
@@ -105,3 +115,23 @@ SUMMERNOTE_CONFIG = {
     'disable_attachment': False,
     'attachment_absolute_uri': True,
 }
+
+# Custom user model
+AUTH_USER_MODEL = 'users.User'
+
+# Email settings from secret.json (development)
+EMAIL_HOST = secrets.get('EMAIL_HOST', 'localhost')
+EMAIL_PORT = secrets.get('EMAIL_PORT', 25)
+EMAIL_HOST_USER = secrets.get('EMAIL_HOST_USER', '')
+EMAIL_HOST_PASSWORD = secrets.get('EMAIL_HOST_PASSWORD', '')
+EMAIL_USE_TLS = secrets.get('EMAIL_USE_TLS', False)
+
+
+# Email settings for verification
+EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+EMAIL_HOST = 'smtp.gmail.com'
+EMAIL_PORT = 587
+EMAIL_HOST_USER = SECRET.get('EMAIL', {}).get('USER')
+EMAIL_HOST_PASSWORD = SECRET.get('EMAIL', {}).get('PASSWORD')
+EMAIL_USE_TLS = True
+DEFAULT_FROM_EMAIL = EMAIL_HOST_USER
